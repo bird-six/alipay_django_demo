@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付成功 - 支付宝沙盒测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1677ff',
+                        success: '#52c41a',
+                        danger: '#ff4d4f',
+                        neutral: '#f5f5f5',
+                        'neutral-dark': '#434343'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            .btn-hover {
+                @apply transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-neutral-dark">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-shopping-bag text-primary text-xl"></i>
+                <span class="font-bold text-lg">测试商店</span>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="{% url 'product' %}" class="text-primary font-medium">首页</a></li>
+                    <li><a href="{% url 'order_list' %}" class="text-gray-600 hover:text-primary transition-colors">订单</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 pt-24 pb-16 min-h-screen">
+        <!-- 支付成功页面 -->
+        <section class="py-8">
+            <div class="max-w-md mx-auto">
+                <div class="bg-white rounded-xl card-shadow p-8 text-center">
+                    <div class="w-20 h-20 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fa fa-check text-4xl text-success"></i>
+                    </div>
+                    
+                    <h2 class="text-2xl font-bold mb-2">支付成功</h2>
+                    <p class="text-gray-600 mb-6">您的订单已支付成功，感谢您的购买！</p>
+                    
+                    <div class="bg-neutral rounded-lg p-4 mb-8 text-left">
+                        <div class="mb-2">
+                            <span class="text-gray-600">订单号：</span>
+                            <span id="success-order-number">{{ order.order_id }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">支付金额：</span>
+                            <span class="font-medium">¥{{ order.total_amount }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="{% url 'product' %}" class="flex-1 bg-primary text-white py-3 rounded-lg font-medium btn-hover text-center">
+                            返回首页
+                        </a>
+                        <a href="{% url 'order_list' %}" class="flex-1 border border-primary text-primary py-3 rounded-lg font-medium transition-colors hover:bg-primary/5 text-center">
+                            查看订单
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
+    

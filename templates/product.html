@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1677ff',
+                        success: '#52c41a',
+                        danger: '#ff4d4f',
+                        neutral: '#f5f5f5',
+                        'neutral-dark': '#434343'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            .btn-hover {
+                @apply transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-neutral-dark">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-shopping-bag text-primary text-xl"></i>
+                <span class="font-bold text-lg">支付宝沙盒</span>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="{% url 'product' %}" class="text-primary font-medium">首页</a></li>
+                    <li><a href="{% url 'order_list' %}" class="text-gray-600 hover:text-primary transition-colors">订单</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 pt-24 pb-16 min-h-screen">
+        <!-- 商品信息页面 -->
+        <section class="py-8">
+            
+            {% for product in products %}
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-xl card-shadow overflow-hidden">
+                    <div>
+                        <!-- 商品信息 -->
+                        <div class="p-6 md:p-8">
+                            <h1 class="text-2xl font-bold mb-3">{{ product.name }}</h1>
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
+                                <span class="text-gray-500 ml-2 text-sm">4.5 (120条评价)</span>
+                            </div>
+
+                            <div class="mb-6">
+                                <span class="text-danger text-3xl font-bold">¥{{ product.price }}</span>
+                                <span class="text-gray-400 line-through ml-2">¥199.00</span>
+                            </div>
+
+                            <p class="text-gray-600 mb-6">这是一个用于测试支付宝沙盒环境的商品。购买此商品将触发支付流程，仅用于测试目的。</p>
+
+                            <div class="flex flex-col sm:flex-row gap-4 mt-8">
+                                <a href="{% url 'order'  product.id %}" class="bg-primary text-white py-3 px-8 rounded-lg font-medium btn-hover flex-1 flex items-center justify-center">
+                                    <i class="fa fa-shopping-cart mr-2"></i> 立即购买
+                                </a>
+                                <button class="border border-primary text-primary py-3 px-6 rounded-lg font-medium transition-colors hover:bg-primary/5 flex items-center justify-center">
+                                    <i class="fa fa-heart-o"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+           
+        </section>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>确认订单 - 支付宝沙盒测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1677ff',
+                        success: '#52c41a',
+                        danger: '#ff4d4f',
+                        neutral: '#f5f5f5',
+                        'neutral-dark': '#434343'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            .btn-hover {
+                @apply transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-neutral-dark">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-shopping-bag text-primary text-xl"></i>
+                <span class="font-bold text-lg">测试商店</span>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="{% url 'product' %}" class="text-primary font-medium">首页</a></li>
+                    <li><a href="{% url 'order_list' %}" class="text-gray-600 hover:text-primary transition-colors">订单</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 pt-24 pb-16 min-h-screen">
+        <!-- 订单页面 -->
+        <section class="py-8">
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-xl card-shadow p-6 md:p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold">确认订单</h2>
+                        <span class="text-sm text-gray-500">订单号: <span id="order-number">{{ order_id }}</span></span>
+                    </div>
+
+                    <!-- 商品信息 -->
+                    <div class="border-b pb-4 mb-4">
+                        <div class="flex gap-4">
+                            <div class="flex-1">
+                                <h3 class="font-bold">{{ product.name }}</h3>
+                                <div class="text-sm text-gray-500 mt-1">数量: 1</div>
+                                <div class="text-danger font-medium mt-1">¥{{ product.price }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 收货信息 -->
+                    <div class="border-b pb-4 mb-4">
+                        <h3 class="font-medium mb-3">收货信息</h3>
+                        <div class="flex items-start">
+                            <i class="fa fa-user-o text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <div>测试用户</div>
+                                <div class="text-gray-600">13800138000</div>
+                                <div class="text-gray-600">测试地址：测试省测试市测试区测试街道123号</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 支付方式 -->
+                    <div class="border-b pb-4 mb-4">
+                        <h3 class="font-medium mb-3">支付方式</h3>
+                        <div class="flex items-center p-3 border rounded-lg bg-blue-50 border-primary">
+                            <div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-white">
+                                <i class="fa fa-check text-xs"></i>
+                            </div>
+                            <img src="https://t.alipayobjects.com/images/T1HHFgXXVeXXXXXXXX.png" alt="支付宝" class="h-6 mx-3">
+                            <span>支付宝</span>
+                        </div>
+                    </div>
+
+                    <!-- 金额汇总 -->
+                    <div class="text-right mb-6">
+                        <div class="mb-1">
+                            <span class="text-gray-600">商品总价：</span>
+                            <span>¥99.00</span>
+                        </div>
+                        <div class="mb-1">
+                            <span class="text-gray-600">运费：</span>
+                            <span>¥0.00</span>
+                        </div>
+                        <div class="text-lg font-bold mt-3">
+                            <span class="text-gray-600">实付款：</span>
+                            <span class="text-danger">¥{{ product.price }}</span>
+                        </div>
+                    </div>
+
+                    <!-- 支付按钮 -->
+                    <div class="flex gap-4">
+                        <a href="{% url 'product' %}" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg font-medium transition-colors hover:bg-gray-50 text-center">
+                            返回
+                        </a>
+                        <form action="{% url 'pay' order_id %}" method="post" id="pay-btn" class="flex-1 bg-primary text-white py-3 rounded-lg font-medium btn-hover flex items-center justify-center">
+                            {% csrf_token %}
+                            <button type="submit" class="flex items-center justify-center">
+                                <i class="fa fa-credit-card mr-2"></i> 确认支付
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
