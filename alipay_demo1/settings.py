@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(%4=)ff&a=v6f)ol(kv8(8)+z9d!f*x^bxm9y6e&io9ts9p_k=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['z72a986e.natappfree.cc', 'localhost']
+ALLOWED_HOSTS = ['公网地址', 'localhost']
 
 
 # Application definition
@@ -126,9 +126,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 支付宝沙箱配置
 ALIPAY_SETTINGS = {
-    "appid": "9021000155669214",
-    "app_return_url": "http://z72a986e.natappfree.cc/pay/success/",    # 同步回调地址
-    "app_notify_url": "http://z72a986e.natappfree.cc/alipay/notify/",  # 异步回调地址
+    "appid": "你的appid",
+    "app_return_url": "http://公网地址/pay/success/",    # 同步回调地址
+    "app_notify_url": "http://公网地址/alipay/notify/",  # 异步回调地址
     "app_private_key_path": os.path.join(BASE_DIR, "keys/app_private_key.pem"),  # 应用私钥路径
     "alipay_public_key_path": os.path.join(BASE_DIR, "keys/alipay_public_key.pem"),  # 支付宝公钥路径
     "sign_type": "RSA2",  # 签名方式
